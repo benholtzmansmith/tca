@@ -32,4 +32,17 @@ class StorageSpec extends FlatSpec with Matchers {
     Storage.query("key1", 1486862180000L, 1486862280000L) shouldBe 0
   }
 
+  it should "act like a cyclic buffer within each keyword" in {
+    Storage.purge()
+
+    val depth = Storage.MAX_RECORDS_PER_KEYWORD
+
+    (1 to depth).foreach(i => Storage.insert("key1", 1486862180000L+i, i))
+    Storage.insert("key1", 1486862180000L+depth+1, depth+1)
+    Storage.query("key1", 0, 1486862180000L+depth+1) shouldBe (2 to depth+1).sum
+
+    Storage.insert("key1", 1486862180000L+depth+2, depth+2)
+    Storage.query("key1", 0, 1486862180000L+depth+2) shouldBe (3 to depth+2).sum
+  }
+
 }
