@@ -8,7 +8,7 @@ import scala.collection.immutable.TreeMap
 object Storage {
 
   //[Keyword -> [Time -> Count]]
-  private var aggregates = Map[String, TreeMap[Long, Long]]()
+  @volatile private var aggregates = Map[String, TreeMap[Long, Long]]()
 
   def query(keyword: String, start: Long, end: Long): Long = {
     println(s"QUERYING keyword: $keyword | start=${getReadableTime(start)} - end=${getReadableTime(end)}")
