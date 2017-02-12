@@ -15,7 +15,6 @@ import scala.collection.JavaConverters._
 import scala.util.Try
 
 object Endpoint {
-
   val config = ConfigFactory.load()
   val keywords = config.getStringList("tca.twitter.keywords").asScala.toList
   val queryDateFormat = config.getString("tca.twitter.queryDateFormat")
@@ -52,11 +51,7 @@ object Endpoint {
         val startMillis = parseQueryTime(start)
         val endMillis = parseQueryTime(end)
 
-        println(keyword)
-        println(startMillis)
-        println(endMillis)
-
-        Ok(1L)
+        Ok(Storage.query(keyword, startMillis, endMillis))
     }
 
   def parseQueryTime(time: String): Long = {
