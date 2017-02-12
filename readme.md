@@ -19,3 +19,6 @@ test: ```sbt clean test```
 and `to` on TreeMap <- Map (O(1)) of TreeMap (O(log(n)) red-black tree)
 * List of keywords is pre-configured in application.conf
 * **Future work**: orderly shutdown, logging, micro benchmarks, more test coverage
+
+#CI
+[build](https://travis-ci.org/roy-d/tca.svg?branch=master)
