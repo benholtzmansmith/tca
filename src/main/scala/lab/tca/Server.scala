@@ -29,19 +29,20 @@ class Server {
   val streamingContext = new StreamingContext("local[*]", "TCA", Seconds(timeScale))
   val rootLogger = Logger.getRootLogger
   rootLogger.setLevel(Level.ERROR)
-  val tweets = TwitterUtils.createStream(streamingContext, None)
+  val tweets = TwitterUtils.createStream(streamingContext, None, filters = keywords)
 }
 
 object Server extends Server with App {
-  val statuses = tweets.map { status =>
-    keywords.filter(k => status.getText.toUpperCase.contains(k.toUpperCase))
-  }.filter(_.nonEmpty).flatMap(identity).countByValue()
+  tweets.map(status => status.getText).print()
+  val statuses = tweets.map(status => status.getText.toUpperCase)
+    .map(s => keywords.filter(k => s.contains(k.toUpperCase)))
+    .filter(_.nonEmpty)
+    .flatMap(identity)
+    .countByValue()
 
-  statuses.foreachRDD { (vals, time) =>
-    println(time)
-    vals.collect().foreach { case (k, v) =>
-      Storage.insert(k, time.milliseconds, v)
-    }
+  statuses.foreachRDD { (pairs, time) =>
+    println("-----------------------------------------------------------------------")
+    pairs.collect().foreach { case (k, v) => Storage.insert(k, time.milliseconds, v) }
   }
 
   streamingContext.start()
