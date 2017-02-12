@@ -21,7 +21,7 @@ and `to` on TreeMap <- Map (O(1)) of TreeMap (O(log(n)) red-black tree)
 * **Future work**: orderly shutdown, logging, micro benchmarks, more test coverage
 
 #CI
-[build](https://travis-ci.org/roy-d/tca.svg?branch=master)
+[![Build Status](https://travis-ci.org/roy-d/tca.svg?branch=master)](https://travis-ci.org/roy-d/tca)
 
 #Performance Considerations:
 * Monitor: ```http://localhost:4040/metrics/json/``` and get a sense if
