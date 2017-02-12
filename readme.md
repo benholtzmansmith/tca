@@ -22,3 +22,14 @@ and `to` on TreeMap <- Map (O(1)) of TreeMap (O(log(n)) red-black tree)
 
 #CI
 [build](https://travis-ci.org/roy-d/tca.svg?branch=master)
+
+#Performance Considerations:
+* Monitor: ```http://localhost:4040/metrics/json/``` and get a sense if
+ processing is keeping up with ingestion. Spark has many scaling and tuning option.
+* Writes from Storage are happening from driver and are aggregated by 
+1 minute. Monitor write throughput.
+* Storage can be partitioned by time, keyword to if there are too many 
+Readers. Monitor read throughput by keyword.
+* Web server is Finch and it can be load tested using wrk. If needed 
+there can be one web server per keyword.
+* I would microbenchmark all the scala functions too e.g. ```https://github.com/roy-d/benchmark```
