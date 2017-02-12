@@ -22,7 +22,7 @@ trait TCAServiceSuite {
   }
 
   it should "respond to queries" in { f =>
-    val request = Request("/count?keyword=watson&start=2017-01-01T00:00&end=2017-01-01T00:30")
+    val request = Request("/count?keyword=women&start=2017-02-11T20:32&end=2017-02-11T20:35")
     val result: Response = f(request)
     result.statusCode shouldBe 200
   }
